@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Game for Guessing Number</title>
+
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-
+            Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous">
+
+        <style>
+                body {
+                padding: 10px;
+                }
+                header {
+                text-align: center;
+                border: 3px solid;
+                background-color: orange;
+                color: black;
+                }
+                #captionArea {
+                margin-top: 30px;
+                text-align: center;
+                }
+                #captionArea {
+                margin-top: 30px;
+                text-align: center;
+                }
+                #guessArea {
+                margin-top: 20px;
+                font-size: 15pt;
+                text-align: center;
+                }
+                #result {
+                font-size: 14px;
+                font-weight: bold;
+                color: blue;
+                text-align: center;
+                }
+                
+                .right{
+                text-align: right;
+                }
+        </style>
+
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+       </script>
+
+		<script>
+
+var guess; 											// storing the guessing number
+
+var MAXATTEMPT = 10; 								// maximum number for attempting
+
+var min = 1;
+var max = 100;
+var attemptCount = 0; // counting for number of attempts
+
+
+
+            function updateRangeValue() {
+                $("#minArea").html(min);
+                $("#maxArea").html(max);
+
+                $("#guessNumber").attr({
+            "max" : max,
+            "min" : min
+        });
+}
+
+            function checking() {
+                var message;
+            // Obtain the guess number
+            guess = parseInt($("#guessNumber").val() );
+
+            attemptCount++;
+
+            // Validation and Matching
+
+        if ( isNaN(guess) || guess == null ) {
+        message = "Invalid Number !";
+}
+        else if (guess > max || guess < min) {
+        message = "Not within the range !";
+}
+        else if (guess == secretNumber) {
+        message = "Extra Match! Congratulation. ";
+}
+        else if (guess > secretNumber) {
+        max = guess - 1;
+        message = "Not Match! The number is too large.";
+}
+        else if (guess < secretNumber) {
+        min = guess + 1;
+        message = "Not Match! The number is too small.";
+}
+        message += "<br />You have attempted " + attemptCount + " time(s).";
+        var exceed = checkMaximum();
+7
+        if (exceed == true) {
+        message += "<br />Maximum Attemtps reached! ";
+        message += "The secret number is " + secretNumber + ".";
+}
+        $("#result").html(message);
+        if (guess != secretNumber) {
+        updateRangeValue();
+    }
+}
+
+$(document).ready(function() {
+            generateNumber();
+            updateRangeValue();
+});
+
+        $("#guessBtn").click(function() {
+            checking();
+});
+
+
+
+
+			</script>
+	
+	</head>
+	
+	<body>
+
+        <script>
+            
+
+            function updateRangeValue() {
+                document.getElementById("minArea").innerHTML = min;
+                document.getElementById("maxArea").innerHTML = max;
+}
+            function generateNumber(){
+                secretNumber = Math.round ( Math.random() * 99, 0 ) + 1;
+                console.log("Secret Number " + secretNumber);       // log generated number
+}
+
+            function checkMaximum () {
+                return ( attemptCount >= MAXATTEMPT ) ? true : false;
+}
+            function checking() {
+                var message;
+                // Obtain the guess number
+
+                guess = parseInt( document.getElementById("guessNumber").value );
+
+                attemptCount++;
+                // Validation and matching
+
+                if ( isNaN(guess) || guess == null ) {
+                message = "Invalid Number !";
+            }
+                else if (guess > max || guess < min) {
+                message = "Not within the range !";
+            }
+                else if (guess == secretNumber) {
+                message = "Extra Match! Congratulation. ";
+            }
+                else if (guess > secretNumber) {
+                max = guess - 1;
+                message = "Not Match! The number is too large.";
+            }
+                else if (guess < secretNumber) {
+                min = guess + 1;
+                message = "Not Match! The number is too small.";
+            }
+
+            message += "<br />You have attempted " + attemptCount + " time(s).";
+
+            var exceed = checkMaximum();
+
+            if (exceed == true) {
+                    message += "<br />Maximum Attempts reached! ";
+                    message += "The secret number is " + secretNumber + ".";
+            }
+                // Display response message
+            document.getElementById("result").innerHTML = message;
+                // Update the number hint
+            if (guess != secretNumber) {
+                updateRangeValue();
+            }
+}
+
+           
+
+    </script>
+        <body>
+		<header>
+			<h1>Game for Guessing Number</h1>
+		</header>
+		
+		<div id="captionArea">
+			<h3>Enter a number between 
+			   <span id="minArea"></span>
+			   and 
+			   <span id="maxArea"></span>	
+            </h3>			
+		</div>
+			
+		<div id="guessArea">
+            <form>
+                <p>
+                    <input type="number" id="guessNumber" class="right" style="width: 100px">
+                </p>
+                    <button type="button" class="btn btn-primary btn-sm" id="guessBtn">Guess</button>
+            </form>
+        </div>
+        <div id="result">
+
+        </div>		
+	</body>
+    
+
+</html>
+
+
+
